@@ -87,12 +87,17 @@
 		"not dead"
 	],
 	"dependencies": {
+		"@types/react-redux": "^7.1.9",
 		"expo": "37.0.7",
 		"react": "16.9.0",
 		"react-dom": "16.9.0",
 		"react-native": "https://github.com/expo/react-native/archive/sdk-37.0.1.tar.gz",
 		"react-native-screens": "2.2.0",
-		"react-native-web": "0.11.7"
+		"react-native-web": "0.11.7",
+		"react-navigation": "^4.3.9",
+		"react-redux": "^7.2.0",
+		"redux": "^4.0.5",
+		"udacifitness-calendar": "^11.0.0"
 	},
 	"devDependencies": {
 		"@babel/core": "7.9.0",

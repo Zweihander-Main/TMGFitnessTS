@@ -6,6 +6,7 @@ import {
 	MaterialCommunityIcons,
 } from '@expo/vector-icons';
 import { red, orange, blue, lightPurp, pink, white } from './colors';
+import { MetricType } from '../types';
 
 const styles = StyleSheet.create({
 	iconContainer: {
@@ -28,11 +29,11 @@ interface Metric {
 	getIcon: () => React.ReactNode;
 }
 
-export type MetricType = 'run' | 'bike' | 'swim' | 'sleep' | 'eat';
+type MetricInfo = Record<MetricType, Metric>;
 
-export type MetricInfo = Record<MetricType, Metric>;
-
-export function getMetricMetaInfo(metric?: string): Metric | MetricInfo {
+export function getMetricMetaInfo(metric: MetricType): Metric;
+export function getMetricMetaInfo(): MetricInfo;
+export function getMetricMetaInfo(metric?: MetricType): Metric | MetricInfo {
 	const info: MetricInfo = {
 		run: {
 			displayName: 'Run',
@@ -143,8 +144,10 @@ export function getMetricMetaInfo(metric?: string): Metric | MetricInfo {
 			},
 		},
 	};
-
-	return typeof metric === 'undefined' ? info : (info[metric] as Metric);
+	if (metric) {
+		return info[metric];
+	}
+	return info;
 }
 
 export function isBetween(num: number, x: number, y: number): boolean {
@@ -189,4 +192,10 @@ export function timeToString(time = Date.now()): string {
 		Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
 	);
 	return todayUTC.toISOString().split('T')[0];
+}
+
+export function getDailyReminderValue(): { today: string } {
+	return {
+		today: '👋 Do not forget to log your data today!',
+	};
 }

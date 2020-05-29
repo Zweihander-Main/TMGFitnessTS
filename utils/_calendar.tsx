@@ -1,10 +1,6 @@
 import { AsyncStorage } from 'react-native';
-import {
-	getMetricMetaInfo,
-	timeToString,
-	MetricInfo,
-	MetricType,
-} from './helpers';
+import { getMetricMetaInfo, timeToString } from './helpers';
+import { Entry } from '../types';
 
 export const CALENDAR_STORAGE_KEY = 'UdaciFitness:calendar';
 
@@ -12,12 +8,10 @@ function getRandomNumber(max: number): number {
 	return Math.floor(Math.random() * max) + 0;
 }
 
-interface DummyData {
-	[key: string]: Record<MetricType, number>;
-}
+export type DummyData = { [key: string]: Entry };
 
 function setDummyData() {
-	const { run, bike, swim, sleep, eat } = getMetricMetaInfo() as MetricInfo;
+	const { run, bike, swim, sleep, eat } = getMetricMetaInfo();
 
 	const dummyData: DummyData = {};
 	const timestamp = Date.now();
@@ -63,7 +57,7 @@ function setMissingDates(dates: DummyData) {
 	return dates;
 }
 
-export function formatCalendarResults(results: string): DummyData {
+export function formatCalendarResults(results: string | null): DummyData {
 	return results === null
 		? setDummyData()
 		: setMissingDates(JSON.parse(results));

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Platform, StatusBar } from 'react-native';
-// import AddEntry from './components/AddEntry';
+import AddEntry from './components/AddEntry';
 import { createStore, Store } from 'redux';
 import { Provider } from 'react-redux';
 import reducer from './reducers';
@@ -13,7 +13,8 @@ import { Constants } from 'expo';
 import Live from './components/Live'
 import { setLocalNotification } from './utils/helpers'
 
-function StatusBar({ backgroundColor, ...props }) {
+
+const TMGStatusBar: React.FC = ({ backgroundColor, ...props }) => {
 	return (
 		<View style={{ backgroundColor, height: Constants.statusBarHeight }}>
 			<StatusBar
@@ -97,7 +98,7 @@ const App: React.FC = () => {
 	return (
 		<Provider store={store}>
 			<View style={styles.mainAppView}>
-				<StatusBar backgroundColor={purple} barStyle="light-content" />
+				<TMGStatusBar backgroundColor={purple} barStyle="light-content" />
 				<MainNavigator />
 			</View>
 		</Provider>

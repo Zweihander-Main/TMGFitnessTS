@@ -6,10 +6,7 @@ import {
 	EntryActionTypes,
 } from '../types';
 
-const entries: Reducer<RootState, EntryActionTypes> = (
-	state = {},
-	action
-): RootState => {
+const entries: Reducer<RootState, EntryActionTypes> = (state = {}, action) => {
 	switch (action.type) {
 		case RECEIVE_ENTRIES: {
 			return {

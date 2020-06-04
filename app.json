@@ -1,6 +1,6 @@
 {
 	"expo": {
-		"sdkVersion": "19.0.0",
+		"sdkVersion": "37.0.0",
 		"orientation": "portrait",
 		"name": "Udacifitness",
 		"description": "The best triathlon training app in the world.",

@@ -1,12 +1,16 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, AsyncStorage } from 'react-native';
 import {
 	FontAwesome,
 	MaterialIcons,
 	MaterialCommunityIcons,
 } from '@expo/vector-icons';
 import { red, orange, blue, lightPurp, pink, white } from './colors';
-import { MetricType } from '../types';
+import { MetricType, StorageEntry } from '../types';
+import { Notifications } from 'expo';
+import * as Permissions from 'expo-permissions';
+
+const NOTIFICATION_KEY = 'TCGFitness:notifications';
 
 const styles = StyleSheet.create({
 	iconContainer: {
@@ -20,7 +24,7 @@ const styles = StyleSheet.create({
 	},
 });
 
-interface Metric {
+interface SingleMetricMetaInfo {
 	displayName: string;
 	max: number;
 	unit: string;
@@ -29,12 +33,14 @@ interface Metric {
 	getIcon: () => React.ReactNode;
 }
 
-type MetricInfo = Record<MetricType, Metric>;
+type AllMetricsMetaInfo = Record<MetricType, SingleMetricMetaInfo>;
 
-export function getMetricMetaInfo(metric: MetricType): Metric;
-export function getMetricMetaInfo(): MetricInfo;
-export function getMetricMetaInfo(metric?: MetricType): Metric | MetricInfo {
-	const info: MetricInfo = {
+export function getMetricMetaInfo(metric: MetricType): SingleMetricMetaInfo;
+export function getMetricMetaInfo(): AllMetricsMetaInfo;
+export function getMetricMetaInfo(
+	metric?: MetricType
+): SingleMetricMetaInfo | AllMetricsMetaInfo {
+	const info: AllMetricsMetaInfo = {
 		run: {
 			displayName: 'Run',
 			max: 50,
@@ -198,4 +204,60 @@ export function getDailyReminderValue(): { today: string } {
 	return {
 		today: '👋 Do not forget to log your data today!',
 	};
+}
+
+export function clearLocalNotification(): Promise<void> {
+	return AsyncStorage.removeItem(NOTIFICATION_KEY).then(
+		Notifications.cancelAllScheduledNotificationsAsync.bind(Notifications)
+	);
+}
+
+function createNotification() {
+	return {
+		title: 'Log your stats!',
+		body: '👋 do not forget to log your stats for today!',
+		ios: {
+			sound: true,
+		},
+		android: {
+			sound: true,
+			priority: 'high',
+			sticky: false,
+			vibrate: true,
+		},
+	};
+}
+
+export function setLocalNotification(): void {
+	void AsyncStorage.getItem(NOTIFICATION_KEY)
+		.then((data) => (data ? (JSON.parse(data) as StorageEntry) : null))
+		.then((data) => {
+			if (data === null) {
+				void Permissions.askAsync(Permissions.NOTIFICATIONS).then(
+					({ status }) => {
+						if (status === 'granted') {
+							void Notifications.cancelAllScheduledNotificationsAsync();
+
+							const tomorrow = new Date();
+							tomorrow.setDate(tomorrow.getDate() + 1);
+							tomorrow.setHours(20);
+							tomorrow.setMinutes(0);
+
+							void Notifications.scheduleLocalNotificationAsync(
+								createNotification(),
+								{
+									time: tomorrow,
+									repeat: 'day',
+								}
+							);
+
+							void AsyncStorage.setItem(
+								NOTIFICATION_KEY,
+								JSON.stringify(true)
+							);
+						}
+					}
+				);
+			}
+		});
 }

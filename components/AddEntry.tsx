@@ -11,6 +11,8 @@ import {
 	getMetricMetaInfo,
 	timeToString,
 	getDailyReminderValue,
+	clearLocalNotification,
+	setLocalNotification,
 } from '../utils/helpers';
 import { MetricType, RootState, Entries, Entry, RootAction } from '../types';
 import UdaciSlider from './UdaciSlider';
@@ -23,6 +25,7 @@ import { Dispatch } from 'redux';
 import { connect, ConnectedProps } from 'react-redux';
 import { addEntry } from '../actions';
 import { white, purple } from '../utils/colors';
+import { NavigationActions } from 'react-navigation';
 
 const styles = StyleSheet.create({
 	alreadyLoggedReset: {
@@ -172,6 +175,12 @@ const AddEntry: React.FC<PropsFromRedux> = ({
 		dispatch({ type: 'slideTo', metric, value });
 	};
 
+	toHome = () => {
+		this.props.navigation.dispatch(
+			NavigationActions.back({ key: 'AddEntry' })
+		);
+	};
+
 	const submit = (): void => {
 		const key = timeToString();
 		const entry = state;
@@ -179,15 +188,15 @@ const AddEntry: React.FC<PropsFromRedux> = ({
 		dispatch({ type: 'submit' });
 
 		addEntryDispatch({ [key]: entry });
-		// Navigate to home
+		this.toHome();
 		void submitEntry({ key, entry });
-		// Clear local notification
+		clearLocalNotification().then(setLocalNotification);
 	};
 
 	const reset = (): void => {
 		const key = timeToString();
 		addEntryDispatch({ [key]: getDailyReminderValue() });
-		// Route to home
+		this.toHome();
 		void removeEntry(key);
 	};
 

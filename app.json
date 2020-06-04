@@ -11,10 +11,10 @@
 			"icon": "http://www.student-scholarships.com/images/made/img/featured/nav_basketball_45_45.png"
 		},
 		"ios": {
-		 “bundleIdentifier”: "org.udacifitness.exp",
+			"bundleIdentifier": "org.udacifitness.exp"
 		},
 		"android": {
-		 “package”: "org.udacifitness.exp",
+			"package": "org.udacifitness.exp"
 		}
-	},
+	}
 }

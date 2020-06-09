@@ -21,7 +21,8 @@
 			"@typescript-eslint",
 			"react",
 			"react-hooks",
-			"react-native"
+			"react-native",
+			"prettier"
 		],
 		"extends": [
 			"eslint:recommended",
@@ -57,7 +58,8 @@
 			"no-mixed-spaces-and-tabs": [
 				"error",
 				"smart-tabs"
-			]
+			],
+			"react/prop-types": 0
 		}
 	},
 	"prettier": {

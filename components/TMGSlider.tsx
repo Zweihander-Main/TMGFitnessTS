@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Slider, StyleSheet } from 'react-native';
-import PropTypes from 'prop-types';
+import { gray } from '../utils/colors';
 
 const styles = StyleSheet.create({
 	metricCounter: {
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	unit: {
-		color: 'gray',
+		color: gray,
 		fontSize: 18,
 	},
 	value: {
@@ -34,7 +34,7 @@ interface UdaciSliderProps {
 	onChange: (value: number) => void;
 }
 
-const UdaciSlider: React.FC<UdaciSliderProps> = ({
+const TMGSlider: React.FC<UdaciSliderProps> = ({
 	max,
 	unit,
 	step,
@@ -59,12 +59,4 @@ const UdaciSlider: React.FC<UdaciSliderProps> = ({
 	);
 };
 
-UdaciSlider.propTypes = {
-	max: PropTypes.number.isRequired,
-	unit: PropTypes.string.isRequired,
-	step: PropTypes.number.isRequired,
-	value: PropTypes.number.isRequired,
-	onChange: PropTypes.func.isRequired,
-};
-
-export default UdaciSlider;
+export default TMGSlider;

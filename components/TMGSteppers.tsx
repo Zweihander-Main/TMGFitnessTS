@@ -6,7 +6,6 @@ import {
 	StyleSheet,
 	Platform,
 } from 'react-native';
-import PropTypes from 'prop-types';
 import { FontAwesome, Entypo } from '@expo/vector-icons';
 import { MetricType } from '../types';
 import { purple, gray, white } from '../utils/colors';
@@ -65,7 +64,7 @@ interface UdaciSteppersProps {
 	onDecrement: (metric: MetricType) => void;
 }
 
-const UdaciSteppers: React.FC<UdaciSteppersProps> = ({
+const TMGSteppers: React.FC<UdaciSteppersProps> = ({
 	// max,
 	unit,
 	// step,
@@ -114,13 +113,4 @@ const UdaciSteppers: React.FC<UdaciSteppersProps> = ({
 	);
 };
 
-UdaciSteppers.propTypes = {
-	max: PropTypes.number.isRequired,
-	unit: PropTypes.string.isRequired,
-	step: PropTypes.number.isRequired,
-	value: PropTypes.number.isRequired,
-	onIncrement: PropTypes.func.isRequired,
-	onDecrement: PropTypes.func.isRequired,
-};
-
-export default UdaciSteppers;
+export default TMGSteppers;

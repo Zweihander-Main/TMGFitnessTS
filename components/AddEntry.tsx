@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
 	View,
 	Text,
@@ -15,8 +14,8 @@ import {
 	setLocalNotification,
 } from '../utils/helpers';
 import { MetricType, RootState, Entries, Entry, RootAction } from '../types';
-import UdaciSlider from './UdaciSlider';
-import UdaciSteppers from './UdaciSteppers';
+import TMGSlider from './TMGSlider';
+import TMGSteppers from './TMGSteppers';
 import DateHeader from './DateHeader';
 import { Ionicons } from '@expo/vector-icons';
 import TextButton from './TextButton';
@@ -25,7 +24,9 @@ import { Dispatch } from 'redux';
 import { connect, ConnectedProps } from 'react-redux';
 import { addEntry } from '../actions';
 import { white, purple } from '../utils/colors';
-import { NavigationActions } from 'react-navigation';
+import { CommonActions } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { TabParamList } from '../App';
 
 const styles = StyleSheet.create({
 	alreadyLoggedReset: {
@@ -91,10 +92,6 @@ const SubmitBtn: React.FC<SubmitBtnProps> = ({ onPress }) => {
 	);
 };
 
-SubmitBtn.propTypes = {
-	onPress: PropTypes.func.isRequired,
-};
-
 type AddEntryReducerState = Entry;
 
 type AddEntryReducerActions =
@@ -149,9 +146,14 @@ function addEntryReducer(
 	}
 }
 
-const AddEntry: React.FC<PropsFromRedux> = ({
+interface NavigationOwnProps {
+	navigation: StackNavigationProp<TabParamList, 'AddEntry'>;
+}
+
+const AddEntry: React.FC<PropsFromRedux & NavigationOwnProps> = ({
 	alreadyLogged = false,
 	addEntryDispatch,
+	navigation,
 }) => {
 	const [state, dispatch] = React.useReducer(addEntryReducer, {
 		run: 0,
@@ -175,10 +177,8 @@ const AddEntry: React.FC<PropsFromRedux> = ({
 		dispatch({ type: 'slideTo', metric, value });
 	};
 
-	toHome = () => {
-		this.props.navigation.dispatch(
-			NavigationActions.back({ key: 'AddEntry' })
-		);
+	const toHome = () => {
+		navigation.dispatch(CommonActions.navigate({ name: 'AddEntry' }));
 	};
 
 	const submit = (): void => {
@@ -188,20 +188,21 @@ const AddEntry: React.FC<PropsFromRedux> = ({
 		dispatch({ type: 'submit' });
 
 		addEntryDispatch({ [key]: entry });
-		this.toHome();
+		toHome();
 		void submitEntry({ key, entry });
-		clearLocalNotification().then(setLocalNotification);
+		void clearLocalNotification().then(setLocalNotification);
 	};
 
 	const reset = (): void => {
 		const key = timeToString();
 		addEntryDispatch({ [key]: getDailyReminderValue() });
-		this.toHome();
+		toHome();
 		void removeEntry(key);
 	};
 
 	const metaInfo = getMetricMetaInfo();
 
+	/* eslint-disable react-native/no-raw-text */
 	if (alreadyLogged) {
 		return (
 			<View style={styles.center}>
@@ -212,12 +213,13 @@ const AddEntry: React.FC<PropsFromRedux> = ({
 					size={100}
 				/>
 				<Text>You already logged your information for today</Text>
-				<TextButton onPress={reset}>
-					<Text style={styles.alreadyLoggedReset}>Reset</Text>
+				<TextButton onPress={reset} style={styles.alreadyLoggedReset}>
+					Reset
 				</TextButton>
 			</View>
 		);
 	}
+	/* eslint-enable */
 
 	return (
 		<View style={styles.container}>
@@ -230,13 +232,13 @@ const AddEntry: React.FC<PropsFromRedux> = ({
 					<View key={key} style={styles.row}>
 						{getIcon()}
 						{type === 'slider' ? (
-							<UdaciSlider
+							<TMGSlider
 								value={value}
 								onChange={(value) => slider(key, value)}
 								{...rest}
 							/>
 						) : (
-							<UdaciSteppers
+							<TMGSteppers
 								value={value}
 								onIncrement={() => increment(key)}
 								onDecrement={() => decrement(key)}
@@ -250,12 +252,6 @@ const AddEntry: React.FC<PropsFromRedux> = ({
 		</View>
 	);
 };
-
-AddEntry.propTypes = {
-	alreadyLogged: PropTypes.bool,
-	addEntryDispatch: PropTypes.func.isRequired,
-};
-
 interface AddEntryMappedProps {
 	alreadyLogged: boolean;
 }

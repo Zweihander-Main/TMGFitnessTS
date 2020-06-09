@@ -4,7 +4,12 @@ import DateHeader from './DateHeader';
 import { getMetricMetaInfo } from '../utils/helpers';
 import { gray } from '../utils/colors';
 
-export default function MetricCard({ date, metrics }) {
+interface MetricCardProps {
+	date: string;
+	metrics: any;
+}
+
+const MetricCard: React.FC<MetricCardProps> = ({ date, metrics }) => {
 	return (
 		<View>
 			{date && <DateHeader date={date} />}
@@ -19,8 +24,10 @@ export default function MetricCard({ date, metrics }) {
 					<View style={styles.metric} key={metric}>
 						{getIcon()}
 						<View>
-							<Text style={{ fontSize: 20 }}>{displayName}</Text>
-							<Text style={{ fontSize: 16, color: gray }}>
+							<Text style={styles.metricDisplayName}>
+								{displayName}
+							</Text>
+							<Text style={styles.metricInfo}>
 								{metrics[metric]} {unit}
 							</Text>
 						</View>
@@ -29,11 +36,20 @@ export default function MetricCard({ date, metrics }) {
 			})}
 		</View>
 	);
-}
+};
 
 const styles = StyleSheet.create({
 	metric: {
 		flexDirection: 'row',
 		marginTop: 12,
 	},
+	metricDisplayName: {
+		fontSize: 20,
+	},
+	metricInfo: {
+		color: gray,
+		fontSize: 16,
+	},
 });
+
+export default MetricCard;

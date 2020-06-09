@@ -1,6 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { TouchableOpacity, StyleSheet } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, TextStyle } from 'react-native';
 import { purple } from '../utils/colors';
 
 const styles = StyleSheet.create({
@@ -11,21 +10,21 @@ const styles = StyleSheet.create({
 });
 
 interface TextButtonProps {
-	children: React.ReactNode;
+	children: string;
 	onPress: () => void;
+	style: TextStyle;
 }
 
-const TextButton: React.FC<TextButtonProps> = ({ children, onPress }) => {
+const TextButton: React.FC<TextButtonProps> = ({
+	children,
+	onPress,
+	style,
+}) => {
 	return (
-		<TouchableOpacity style={styles.reset} onPress={onPress}>
-			{children}
+		<TouchableOpacity onPress={onPress}>
+			<Text style={[styles.reset, style]}>{children}</Text>
 		</TouchableOpacity>
 	);
-};
-
-TextButton.propTypes = {
-	children: PropTypes.element.isRequired,
-	onPress: PropTypes.func.isRequired,
 };
 
 export default TextButton;

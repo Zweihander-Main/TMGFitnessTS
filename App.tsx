@@ -43,7 +43,7 @@ TMGStatusBar.propTypes = {
 	barStyle: PropTypes.oneOf(['default', 'light-content', 'dark-content']),
 };
 
-type TabParamList = {
+export type TabParamList = {
 	History: undefined;
 	AddEntry: undefined;
 	Live: undefined;
@@ -127,7 +127,7 @@ const TabNav: React.FC = () => {
 	}
 };
 
-type StackParamList = {
+export type StackParamList = {
 	Home: undefined;
 	EntryDetail: undefined;
 };

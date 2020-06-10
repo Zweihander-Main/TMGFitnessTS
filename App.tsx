@@ -52,7 +52,7 @@ export type TabParamList = {
 const TabNav: React.FC = () => {
 	/* eslint-disable react/display-name */
 	const RouteConfigs = {
-		History: {
+		/*		History: {
 			name: 'History' as keyof TabParamList,
 			component: History,
 			options: {
@@ -61,7 +61,7 @@ const TabNav: React.FC = () => {
 				),
 				title: 'History',
 			},
-		},
+		},*/
 		AddEntry: {
 			component: AddEntry,
 			name: 'Add Entry' as keyof TabParamList,
@@ -72,7 +72,7 @@ const TabNav: React.FC = () => {
 				title: 'Add Entry',
 			},
 		},
-		Live: {
+		/*		Live: {
 			component: Live,
 			name: 'Live' as keyof TabParamList,
 			options: {
@@ -81,7 +81,7 @@ const TabNav: React.FC = () => {
 				),
 				title: 'Live',
 			},
-		},
+		},*/
 	};
 	/* eslint-enable */
 
@@ -110,18 +110,14 @@ const TabNav: React.FC = () => {
 		const Tab = createBottomTabNavigator<TabParamList>();
 		return (
 			<Tab.Navigator {...TabNavigatorConfig}>
-				<Tab.Screen {...RouteConfigs['History']} />
 				<Tab.Screen {...RouteConfigs['AddEntry']} />
-				<Tab.Screen {...RouteConfigs['Live']} />
 			</Tab.Navigator>
 		);
 	} else {
 		const Tab = createMaterialTopTabNavigator<TabParamList>();
 		return (
 			<Tab.Navigator {...TabNavigatorConfig}>
-				<Tab.Screen {...RouteConfigs['History']} />
 				<Tab.Screen {...RouteConfigs['AddEntry']} />
-				<Tab.Screen {...RouteConfigs['Live']} />
 			</Tab.Navigator>
 		);
 	}
@@ -129,7 +125,7 @@ const TabNav: React.FC = () => {
 
 export type StackParamList = {
 	Home: undefined;
-	EntryDetail: undefined;
+	EntryDetail: { entryId: string };
 };
 
 const MainNav: React.FC = () => {

@@ -18,7 +18,9 @@ interface EntryDetailOwnProps {
 	navigation: StackNavigationProp<StackParamList, 'EntryDetail'>;
 }
 
-const EntryDetail: React.FC<PropsFromRedux & EntryDetailOwnProps> = ({
+type EntryDetailProps = PropsFromRedux & EntryDetailOwnProps;
+
+const EntryDetail: React.FC<EntryDetailProps> = ({
 	metrics,
 	remove,
 	goBack,
@@ -31,33 +33,29 @@ const EntryDetail: React.FC<PropsFromRedux & EntryDetailOwnProps> = ({
 		void removeEntry(entryId);
 	};
 
-	const setNavigationOptions = (title: string) => {
-		navigation.setOptions({ title });
-	};
-
 	React.useEffect(() => {
 		if (!entryId) return;
 
 		const year = entryId.slice(0, 4);
 		const month = entryId.slice(5, 7);
 		const day = entryId.slice(8);
-
-		setNavigationOptions(`${month}/${day}/${year}`);
-	}, [entryId]);
-
+		navigation.setOptions({ title: `${month}/${day}/${year}` });
+	}, [entryId, navigation]);
+	/* eslint-disable react-native/no-raw-text */
 	return (
 		<View style={styles.container}>
-			<MetricCard metrics={metrics} />
-			<TextButton style={{ margin: 20 }} onPress={reset}>
+			<MetricCard metrics={metrics} date={entryId} />
+			<TextButton style={styles.resetButtonText} onPress={reset}>
 				RESET
 			</TextButton>
 		</View>
 	);
+	/* eslint-enable */
 };
 
 const compareEntryDetailProps = (
-	_prevProps: PropsFromRedux,
-	nextProps: PropsFromRedux
+	_prevProps: EntryDetailProps,
+	nextProps: EntryDetailProps
 ) => {
 	return nextProps.metrics !== null && !nextProps.metrics.today;
 };
@@ -67,6 +65,9 @@ const styles = StyleSheet.create({
 		backgroundColor: white,
 		flex: 1,
 		padding: 15,
+	},
+	resetButtonText: {
+		margin: 20,
 	},
 });
 
@@ -81,7 +82,7 @@ function mapState(state: RootState, { route }: EntryDetailOwnProps) {
 
 function mapDispatchToProps(
 	dispatch: Dispatch<RootAction>,
-	{ route }: EntryDetailOwnProps
+	{ route, navigation }: EntryDetailOwnProps
 ) {
 	const { entryId } = route.params;
 
@@ -103,11 +104,8 @@ const connector = connect(mapState, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-const connectedEntryDetails = connector(EntryDetail);
+const memoizedEntryDetails = React.memo(EntryDetail, compareEntryDetailProps);
 
-const memoizedConnectedEntryDetails = React.memo(
-	connectedEntryDetails,
-	compareEntryDetailProps
-);
+const connectedEntryDetails = connector(memoizedEntryDetails);
 
-export default memoizedConnectedEntryDetails;
+export default connectedEntryDetails;

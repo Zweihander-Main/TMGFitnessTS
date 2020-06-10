@@ -3,6 +3,7 @@ import { View, StyleSheet, Text } from 'react-native';
 import DateHeader from './DateHeader';
 import { getMetricMetaInfo } from '../utils/helpers';
 import { gray } from '../utils/colors';
+import { MetricType } from '../types';
 
 interface MetricCardProps {
 	date: string;
@@ -14,12 +15,9 @@ const MetricCard: React.FC<MetricCardProps> = ({ date, metrics }) => {
 		<View>
 			{date && <DateHeader date={date} />}
 			{Object.keys(metrics).map((metric) => {
-				const {
-					getIcon,
-					displayName,
-					unit,
-					backgroundColor,
-				} = getMetricMetaInfo(metric);
+				const { getIcon, displayName, unit } = getMetricMetaInfo(
+					metric as MetricType
+				);
 				return (
 					<View style={styles.metric} key={metric}>
 						{getIcon()}
@@ -28,7 +26,7 @@ const MetricCard: React.FC<MetricCardProps> = ({ date, metrics }) => {
 								{displayName}
 							</Text>
 							<Text style={styles.metricInfo}>
-								{metrics[metric]} {unit}
+								{metrics[metric as MetricType]} {unit}
 							</Text>
 						</View>
 					</View>

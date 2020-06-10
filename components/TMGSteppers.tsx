@@ -5,9 +5,9 @@ import {
 	TouchableOpacity,
 	StyleSheet,
 	Platform,
+	GestureResponderEvent,
 } from 'react-native';
 import { FontAwesome, Entypo } from '@expo/vector-icons';
-import { MetricType } from '../types';
 import { purple, gray, white } from '../utils/colors';
 
 const styles = StyleSheet.create({
@@ -56,18 +56,14 @@ const styles = StyleSheet.create({
 });
 
 interface UdaciSteppersProps {
-	max: number;
 	unit: string;
-	step: number;
 	value: number;
-	onIncrement: (metric: MetricType) => void;
-	onDecrement: (metric: MetricType) => void;
+	onIncrement: (metric: GestureResponderEvent) => void;
+	onDecrement: (metric: GestureResponderEvent) => void;
 }
 
 const TMGSteppers: React.FC<UdaciSteppersProps> = ({
-	// max,
 	unit,
-	// step,
 	value,
 	onIncrement,
 	onDecrement,

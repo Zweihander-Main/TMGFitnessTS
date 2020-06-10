@@ -224,9 +224,9 @@ const AddEntry: React.FC<PropsFromRedux & NavigationOwnProps> = ({
 	return (
 		<View style={styles.container}>
 			<DateHeader date={new Date().toLocaleDateString()} />
-			{Object.keys(metaInfo).map((key: MetricType) => {
-				const { getIcon, type, ...rest } = metaInfo[key];
-				const value = state[key];
+			{Object.keys(metaInfo).map((key) => {
+				const { getIcon, type, ...rest } = metaInfo[key as MetricType];
+				const value = state[key as MetricType];
 
 				return (
 					<View key={key} style={styles.row}>
@@ -234,14 +234,16 @@ const AddEntry: React.FC<PropsFromRedux & NavigationOwnProps> = ({
 						{type === 'slider' ? (
 							<TMGSlider
 								value={value}
-								onChange={(value) => slider(key, value)}
+								onChange={(value) =>
+									slider(key as MetricType, value)
+								}
 								{...rest}
 							/>
 						) : (
 							<TMGSteppers
 								value={value}
-								onIncrement={() => increment(key)}
-								onDecrement={() => decrement(key)}
+								onIncrement={() => increment(key as MetricType)}
+								onDecrement={() => decrement(key as MetricType)}
 								{...rest}
 							/>
 						)}

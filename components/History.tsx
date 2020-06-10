@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { receiveEntries, addEntry } from '../actions';
 import { timeToString, getDailyReminderValue } from '../utils/helpers';
 import { fetchCalendarResults } from '../utils/api';
-import UdaciFitnessCalendar from 'udacifitness-calendar';
+import { Calendar } from 'react-native-calendars';
 import { white } from '../utils/colors';
 import DateHeader from './DateHeader';
 import MetricCard from './MetricCard';
@@ -61,7 +61,7 @@ class History extends Component {
 			<View style={styles.item}>
 				<DateHeader date={formattedDate} />
 				<Text style={styles.noDataText}>
-					You didn't log any data on this day.
+					You didn&apos;t log any data on this day.
 				</Text>
 			</View>
 		);
@@ -75,7 +75,7 @@ class History extends Component {
 		}
 
 		return (
-			<UdaciFitnessCalendar
+			<Calendar
 				items={entries}
 				renderItem={this.renderItem}
 				renderEmptyDate={this.renderEmptyDate}

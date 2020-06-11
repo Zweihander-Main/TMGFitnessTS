@@ -255,13 +255,13 @@ const AddEntry: React.FC<PropsFromRedux & NavigationOwnProps> = ({
 	);
 };
 interface AddEntryMappedProps {
-	alreadyLogged: boolean;
+	alreadyLogged: boolean | null;
 }
 
 const mapState = (state: RootState): AddEntryMappedProps => {
 	const key = timeToString();
 	return {
-		alreadyLogged: state[key] && typeof state[key].today === 'undefined',
+		alreadyLogged: state[key] && typeof state[key]?.today === 'undefined',
 	};
 };
 

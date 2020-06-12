@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import { getMetricMetaInfo, timeToString } from './helpers';
-import { StorageEntry } from '../types';
+import { Entries } from '../types';
 
 export const CALENDAR_STORAGE_KEY = 'UdaciFitness:calendar';
 
@@ -11,7 +11,7 @@ function getRandomNumber(max: number): number {
 function setDummyData() {
 	const { run, bike, swim, sleep, eat } = getMetricMetaInfo();
 
-	const dummyData: StorageEntry = {};
+	const dummyData: Entries = {};
 	const timestamp = Date.now();
 
 	for (let i = -183; i < 0; i++) {
@@ -19,27 +19,25 @@ function setDummyData() {
 		const strTime = timeToString(time);
 		dummyData[strTime] =
 			getRandomNumber(3) % 2 === 0
-				? {
-						run: getRandomNumber(run.max),
-						bike: getRandomNumber(bike.max),
-						swim: getRandomNumber(swim.max),
-						sleep: getRandomNumber(sleep.max),
-						eat: getRandomNumber(eat.max),
-				  }
-				: null;
+				? [
+						{
+							run: getRandomNumber(run.max),
+							bike: getRandomNumber(bike.max),
+							swim: getRandomNumber(swim.max),
+							sleep: getRandomNumber(sleep.max),
+							eat: getRandomNumber(eat.max),
+							date: strTime,
+						},
+				  ]
+				: [];
 	}
 
-	AsyncStorage.setItem(
-		CALENDAR_STORAGE_KEY,
-		JSON.stringify(dummyData)
-	).finally(() => {
-		null;
-	});
+	void AsyncStorage.setItem(CALENDAR_STORAGE_KEY, JSON.stringify(dummyData));
 
 	return dummyData;
 }
 
-function setMissingDates(dates: StorageEntry) {
+function setMissingDates(dates: Entries) {
 	const timestamp = Date.now();
 
 	for (let i = -183; i < 0; i++) {
@@ -47,14 +45,16 @@ function setMissingDates(dates: StorageEntry) {
 		const strTime = timeToString(time);
 
 		if (typeof dates[strTime] === 'undefined') {
-			dates[strTime] = null;
+			dates[strTime] = [];
+		} else if (typeof dates[strTime]['today'] !== 'undefined') {
+			delete dates[strTime]['today'];
 		}
 	}
 
 	return dates;
 }
 
-export function formatCalendarResults(results: string | null): StorageEntry {
+export function formatCalendarResults(results: string | null): Entries {
 	return results === null
 		? setDummyData()
 		: setMissingDates(JSON.parse(results));

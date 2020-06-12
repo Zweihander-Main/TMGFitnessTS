@@ -33,6 +33,7 @@ const EntryDetail: React.FC<EntryDetailProps> = ({
 		void removeEntry(entryId);
 	};
 
+	/* eslint-disable react-hooks/exhaustive-deps */
 	React.useEffect(() => {
 		if (!entryId) return;
 
@@ -40,11 +41,13 @@ const EntryDetail: React.FC<EntryDetailProps> = ({
 		const month = entryId.slice(5, 7);
 		const day = entryId.slice(8);
 		navigation.setOptions({ title: `${month}/${day}/${year}` });
-	}, [entryId, navigation]);
+	}, [entryId]);
+	/* eslint-enable */
+
 	/* eslint-disable react-native/no-raw-text */
 	return (
 		<View style={styles.container}>
-			<MetricCard metrics={metrics} date={entryId} />
+			<MetricCard metrics={metrics} />
 			<TextButton style={styles.resetButtonText} onPress={reset}>
 				RESET
 			</TextButton>
@@ -76,7 +79,7 @@ function mapState(state: RootState, { route }: EntryDetailOwnProps) {
 
 	return {
 		entryId,
-		metrics: state[entryId],
+		metrics: state[entryId][0],
 	};
 }
 
@@ -92,8 +95,8 @@ function mapDispatchToProps(
 				addEntry({
 					[entryId]:
 						timeToString() === entryId
-							? getDailyReminderValue()
-							: null,
+							? [getDailyReminderValue()]
+							: [],
 				})
 			),
 		goBack: () => navigation.goBack(),

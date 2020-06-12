@@ -5,7 +5,7 @@ import AddEntry from './components/AddEntry';
 import { createStore, Store } from 'redux';
 import { Provider } from 'react-redux';
 import reducer from './reducers';
-import { RootState } from './types';
+import { RootState, RootAction } from './types';
 import History from './components/History';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -17,6 +17,7 @@ import Constants from 'expo-constants';
 import EntryDetail from './components/EntryDetail';
 import Live from './components/Live';
 import { setLocalNotification } from './utils/helpers';
+import middleware from './middleware';
 
 interface TMGStatusBarProps {
 	backgroundColor: string;
@@ -52,7 +53,7 @@ export type TabParamList = {
 const TabNav: React.FC = () => {
 	/* eslint-disable react/display-name */
 	const RouteConfigs = {
-		/*		History: {
+		History: {
 			name: 'History' as keyof TabParamList,
 			component: History,
 			options: {
@@ -61,10 +62,10 @@ const TabNav: React.FC = () => {
 				),
 				title: 'History',
 			},
-		},*/
+		},
 		AddEntry: {
 			component: AddEntry,
-			name: 'Add Entry' as keyof TabParamList,
+			name: 'AddEntry' as keyof TabParamList,
 			options: {
 				tabBarIcon: ({ color }: { color: string }) => (
 					<FontAwesome name="plus-square" size={30} color={color} />
@@ -72,7 +73,7 @@ const TabNav: React.FC = () => {
 				title: 'Add Entry',
 			},
 		},
-		/*		Live: {
+		Live: {
 			component: Live,
 			name: 'Live' as keyof TabParamList,
 			options: {
@@ -81,7 +82,7 @@ const TabNav: React.FC = () => {
 				),
 				title: 'Live',
 			},
-		},*/
+		},
 	};
 	/* eslint-enable */
 
@@ -110,14 +111,18 @@ const TabNav: React.FC = () => {
 		const Tab = createBottomTabNavigator<TabParamList>();
 		return (
 			<Tab.Navigator {...TabNavigatorConfig}>
+				<Tab.Screen {...RouteConfigs['History']} />
 				<Tab.Screen {...RouteConfigs['AddEntry']} />
+				<Tab.Screen {...RouteConfigs['Live']} />
 			</Tab.Navigator>
 		);
 	} else {
 		const Tab = createMaterialTopTabNavigator<TabParamList>();
 		return (
 			<Tab.Navigator {...TabNavigatorConfig}>
+				<Tab.Screen {...RouteConfigs['History']} />
 				<Tab.Screen {...RouteConfigs['AddEntry']} />
+				<Tab.Screen {...RouteConfigs['Live']} />
 			</Tab.Navigator>
 		);
 	}
@@ -167,7 +172,7 @@ const styles = StyleSheet.create({
 	},
 });
 
-const store: Store<RootState> = createStore(reducer);
+const store: Store<RootState, RootAction> = createStore(reducer, middleware);
 
 const App: React.FC = () => {
 	React.useEffect(() => setLocalNotification(), []);

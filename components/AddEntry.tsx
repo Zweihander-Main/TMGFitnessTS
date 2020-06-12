@@ -183,11 +183,11 @@ const AddEntry: React.FC<PropsFromRedux & NavigationOwnProps> = ({
 
 	const submit = (): void => {
 		const key = timeToString();
-		const entry = state;
+		const entry = { ...state, date: key };
 
 		dispatch({ type: 'submit' });
 
-		addEntryDispatch({ [key]: entry });
+		addEntryDispatch({ [key]: [entry] });
 		toHome();
 		void submitEntry({ key, entry });
 		void clearLocalNotification().then(setLocalNotification);
@@ -195,7 +195,7 @@ const AddEntry: React.FC<PropsFromRedux & NavigationOwnProps> = ({
 
 	const reset = (): void => {
 		const key = timeToString();
-		addEntryDispatch({ [key]: getDailyReminderValue() });
+		addEntryDispatch({ [key]: [getDailyReminderValue()] });
 		toHome();
 		void removeEntry(key);
 	};
@@ -261,7 +261,10 @@ interface AddEntryMappedProps {
 const mapState = (state: RootState): AddEntryMappedProps => {
 	const key = timeToString();
 	return {
-		alreadyLogged: state[key] && typeof state[key]?.today === 'undefined',
+		alreadyLogged:
+			state[key] &&
+			state[key][0] &&
+			typeof state[key][0]['today'] === 'undefined',
 	};
 };
 

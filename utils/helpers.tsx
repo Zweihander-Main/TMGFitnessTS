@@ -7,7 +7,7 @@ import {
 	MaterialCommunityIcons,
 } from '@expo/vector-icons';
 import { red, orange, blue, lightPurp, pink, white } from './colors';
-import { MetricType, StorageEntry } from '../types';
+import { MetricType, Entries, StateEntry } from '../types';
 import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
 
@@ -201,9 +201,10 @@ export function timeToString(time = Date.now()): string {
 	return todayUTC.toISOString().split('T')[0];
 }
 
-export function getDailyReminderValue(): { today: string } {
+export function getDailyReminderValue(): StateEntry {
 	return {
 		today: '👋 Do not forget to log your data today!',
+		date: timeToString(),
 	};
 }
 
@@ -231,7 +232,7 @@ function createNotification() {
 
 export function setLocalNotification(): void {
 	void AsyncStorage.getItem(NOTIFICATION_KEY)
-		.then((data) => (data ? (JSON.parse(data) as StorageEntry) : null))
+		.then((data) => (data ? (JSON.parse(data) as Entries) : null))
 		.then((data) => {
 			if (data === null) {
 				void Permissions.askAsync(Permissions.NOTIFICATIONS).then(

@@ -1,11 +1,11 @@
 import { Action } from 'redux';
+import { AgendaItemsMap } from 'react-native-calendars';
 
 export type MetricType = 'run' | 'bike' | 'swim' | 'sleep' | 'eat';
 
 export type Entry = Record<MetricType, number>;
-export type StateEntry = Partial<Entry> & { today?: string };
-export type StorageEntry = { [key: string]: Entry | null };
-export type Entries = { [key: string]: StateEntry | null };
+export type StateEntry = Partial<Entry> & { today?: string } & { date: string };
+export type Entries = AgendaItemsMap<StateEntry>;
 
 export const RECEIVE_ENTRIES = 'RECEIVE_ENTRIES';
 export const ADD_ENTRY = 'ADD_ENTRY';

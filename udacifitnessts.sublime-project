@@ -13,6 +13,7 @@
 	"settings": {
         "js_prettier": {
             "auto_format_on_save": true
-        }
+        },
+        "SublimeLinter.linters.stylelint.selector": "source.css - meta.attribute-with-value, source.sass, source.scss, source.less, source.sss, source.ts, source.tsx"
     }
 }

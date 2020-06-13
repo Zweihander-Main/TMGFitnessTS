@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
-import { getMetricMetaInfo } from '../utils/helpers';
-import { gray } from '../utils/colors';
-import { MetricType } from '../types';
+import { View } from 'react-native';
+import { getMetricMetaInfo } from '../../utils/helpers';
+import { MetricType } from '../../types';
+import { MetricView, MetricInfoText, MetricDisplayNameText } from './styles';
 
 interface MetricCardProps {
 	metrics: Partial<Record<MetricType, number | undefined>>;
@@ -19,35 +19,21 @@ const MetricCard: React.FC<MetricCardProps> = ({ metrics }) => {
 					metric as MetricType
 				);
 				return (
-					<View style={styles.metric} key={metric}>
+					<MetricView key={metric}>
 						{getIcon()}
 						<View>
-							<Text style={styles.metricDisplayName}>
+							<MetricDisplayNameText>
 								{displayName}
-							</Text>
-							<Text style={styles.metricInfo}>
+							</MetricDisplayNameText>
+							<MetricInfoText>
 								{metrics[metric]} {unit}
-							</Text>
+							</MetricInfoText>
 						</View>
-					</View>
+					</MetricView>
 				);
 			})}
 		</View>
 	);
 };
-
-const styles = StyleSheet.create({
-	metric: {
-		flexDirection: 'row',
-		marginTop: 12,
-	},
-	metricDisplayName: {
-		fontSize: 20,
-	},
-	metricInfo: {
-		color: gray,
-		fontSize: 16,
-	},
-});
 
 export default MetricCard;

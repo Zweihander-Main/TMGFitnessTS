@@ -2,15 +2,15 @@
 	"expo": {
 		"sdkVersion": "37.0.0",
 		"orientation": "portrait",
-		"name": "Udacifitness",
+		"name": "TMGFitnessTS",
 		"description": "The best triathlon training app in the world.",
-		"slug": "udacifitness",
+		"slug": "tmgfitnessts",
 		"version": "1.0",
 		"ios": {
-			"bundleIdentifier": "org.udacifitness.exp"
+			"bundleIdentifier": "org.tmgfitnessts.exp"
 		},
 		"android": {
-			"package": "org.udacifitness.exp"
+			"package": "org.tmgfitnessts.exp"
 		}
 	}
 }

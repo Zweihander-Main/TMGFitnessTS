@@ -29,3 +29,14 @@ export type RootState = Entries;
 export type EntryActionTypes = ReceiveEntries | AddEntry;
 
 export type RootAction = EntryActionTypes;
+
+export type TabParamList = {
+	History: undefined;
+	AddEntry: undefined;
+	Live: undefined;
+};
+
+export type StackParamList = {
+	Home: undefined;
+	EntryDetail: { entryId: string };
+};

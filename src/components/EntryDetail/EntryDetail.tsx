@@ -3,7 +3,7 @@ import MetricCard from '../MetricCard';
 import TextButton from '../TextButton';
 import { removeEntry } from '../../utils/api';
 import { RouteProp } from '@react-navigation/native';
-import { StackParamList } from '../../App';
+import { StackParamList } from '../../types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { PropsFromRedux } from './container';
 import { EntryDetailView } from './styles';

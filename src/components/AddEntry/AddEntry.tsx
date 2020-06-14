@@ -7,7 +7,7 @@ import {
 	clearLocalNotification,
 	setLocalNotification,
 } from '../../utils/helpers';
-import { MetricType, Entry } from '../../types';
+import { MetricType, Entry, TabParamList } from '../../types';
 import TMGSlider from '../TMGSlider';
 import TMGSteppers from '../TMGSteppers';
 import DateHeader from '../DateHeader';
@@ -16,7 +16,6 @@ import TextButton from '../TextButton';
 import { submitEntry, removeEntry } from '../../utils/api';
 import { CommonActions } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { TabParamList } from '../../App';
 import {
 	iOSTouchableOpacity,
 	androidTouchableOpacity,

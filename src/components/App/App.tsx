@@ -5,7 +5,12 @@ import AddEntry from '../AddEntry';
 import { createStore, Store } from 'redux';
 import { Provider } from 'react-redux';
 import reducer from '../../reducers';
-import { RootState, RootAction } from '../../types';
+import {
+	RootState,
+	RootAction,
+	TabParamList,
+	StackParamList,
+} from '../../types';
 import History from '../History';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -43,12 +48,6 @@ const TMGStatusBar: React.FC<TMGStatusBarProps> = ({
 TMGStatusBar.propTypes = {
 	backgroundColor: PropTypes.string.isRequired,
 	barStyle: PropTypes.oneOf(['default', 'light-content', 'dark-content']),
-};
-
-export type TabParamList = {
-	History: undefined;
-	AddEntry: undefined;
-	Live: undefined;
 };
 
 const TabNav: React.FC = () => {
@@ -127,11 +126,6 @@ const TabNav: React.FC = () => {
 			</Tab.Navigator>
 		);
 	}
-};
-
-export type StackParamList = {
-	Home: undefined;
-	EntryDetail: { entryId: string };
 };
 
 const MainNav: React.FC = () => {

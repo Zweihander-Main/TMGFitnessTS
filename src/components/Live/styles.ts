@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import { purple, white, transparentWhite } from '../../utils/colors';
+import { Animated } from 'react-native';
 
 export const NullActivityIndicator = styled.ActivityIndicator`
 	margin-top: 30px;
@@ -35,7 +36,7 @@ export const DirectionContainerView = styled.View`
 	justify-content: center;
 `;
 
-export const DirectionText = styled.Text`
+export const DirectionText = styled(Animated.Text)`
 	color: ${purple};
 	font-size: 120px;
 	text-align: center;

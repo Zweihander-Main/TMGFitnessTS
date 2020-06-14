@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, Animated } from 'react-native';
 import { Foundation } from '@expo/vector-icons';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
@@ -34,6 +34,7 @@ const Live: React.FC = () => {
 	const [coords, setCoords] = React.useState<coords | null>(null);
 	const [status, setStatus] = React.useState<permissionStatus | null>(null);
 	const [direction, setDirection] = React.useState('');
+	const [bounceValue] = React.useState(new Animated.Value(1));
 
 	const setLocation = () => {
 		void Location.watchPositionAsync(
@@ -44,6 +45,20 @@ const Live: React.FC = () => {
 			},
 			({ coords }) => {
 				const newDirection = calculateDirection(coords.heading);
+				if (newDirection !== direction) {
+					Animated.sequence([
+						Animated.timing(bounceValue, {
+							duration: 200,
+							toValue: 1.04,
+							useNativeDriver: true,
+						}),
+						Animated.spring(bounceValue, {
+							toValue: 1,
+							friction: 4,
+							useNativeDriver: true,
+						}),
+					]).start();
+				}
 				setCoords(coords);
 				setStatus('granted');
 				setDirection(newDirection);
@@ -102,7 +117,9 @@ const Live: React.FC = () => {
 		<LiveContainerView>
 			<DirectionContainerView>
 				<HeaderText>You&apos;re heading</HeaderText>
-				<DirectionText>{direction}</DirectionText>
+				<DirectionText style={{ transform: [{ scale: bounceValue }] }}>
+					{direction}
+				</DirectionText>
 			</DirectionContainerView>
 			{coords !== null && (
 				<MetricContainerView>

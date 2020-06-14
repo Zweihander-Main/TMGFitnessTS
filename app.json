@@ -6,6 +6,10 @@
 		"description": "The best triathlon training app in the world.",
 		"slug": "tmgfitnessts",
 		"version": "1.0",
+		"icon": "https://maxcdn.icons8.com/Color/PNG/512/Sports/triathlon-512.png",
+		"notification": {
+			"icon": "https://img.icons8.com/pastel-glyph/64/000000/basketball.png"
+		},
 		"ios": {
 			"bundleIdentifier": "org.tmgfitnessts.exp"
 		},

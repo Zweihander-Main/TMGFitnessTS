@@ -4,7 +4,6 @@ import { timeToString, getDailyReminderValue } from '../../utils/helpers';
 import { fetchCalendarResults } from '../../utils/api';
 import { Agenda } from 'react-native-calendars';
 import MetricCard from '../MetricCard';
-import { AppLoading } from 'expo';
 import { StateEntry, StackParamList } from '../../types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { PropsFromRedux } from './container';
@@ -70,8 +69,9 @@ const History: React.FC<PropsFromRedux & HistoryOwnProps> = ({
 		);
 	};
 
+	// Remove <AppLoading /> when switching to bare workflow
 	if (ready === false) {
-		return <AppLoading />;
+		return null;
 	}
 
 	return (

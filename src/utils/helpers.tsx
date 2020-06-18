@@ -8,7 +8,7 @@ import {
 } from '@expo/vector-icons';
 import { red, orange, blue, lightPurp, pink, white } from './colors';
 import { MetricType, Entries, StateEntry } from '../types';
-import { Notifications } from 'expo';
+import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
 
 const NOTIFICATION_KEY = 'TCGFitness:notifications';
@@ -214,18 +214,20 @@ export function clearLocalNotification(): Promise<void> {
 	);
 }
 
-function createNotification() {
+function createNotification(): Notifications.NotificationRequestInput {
 	return {
-		title: 'Log your stats!',
-		body: '👋 do not forget to log your stats for today!',
-		ios: {
-			sound: true,
-		},
-		android: {
+		content: {
+			title: 'Log your stats!',
+			body: '👋 do not forget to log your stats for today!',
 			sound: true,
 			priority: 'high',
-			sticky: false,
-			vibrate: true,
+			vibrate: [250],
+			autoDismiss: true,
+		},
+		trigger: {
+			hour: 20,
+			minute: 0,
+			repeats: true,
 		},
 	};
 }
@@ -238,20 +240,21 @@ export function setLocalNotification(): void {
 				void Permissions.askAsync(Permissions.NOTIFICATIONS).then(
 					({ status }) => {
 						if (status === 'granted') {
-							void Notifications.cancelAllScheduledNotificationsAsync();
-
-							const tomorrow = new Date();
-							tomorrow.setDate(tomorrow.getDate() + 1);
-							tomorrow.setHours(20);
-							tomorrow.setMinutes(0);
-
-							void Notifications.scheduleLocalNotificationAsync(
-								createNotification(),
-								{
-									time: tomorrow,
-									repeat: 'day',
-								}
+							void Notifications.cancelAllScheduledNotificationsAsync().then(
+								() =>
+									void Notifications.scheduleNotificationAsync(
+										createNotification()
+									)
 							);
+
+							Notifications.setNotificationHandler({
+								handleNotification: () =>
+									Promise.resolve({
+										shouldShowAlert: true,
+										shouldPlaySound: false,
+										shouldSetBadge: false,
+									}),
+							});
 
 							void AsyncStorage.setItem(
 								NOTIFICATION_KEY,

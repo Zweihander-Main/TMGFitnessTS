@@ -1,30 +1,53 @@
-# [TypeScript Example](https://www.typescriptlang.org/)
+# TMGFitnessTS
 
-<p>
-  <!-- iOS -->
-  <img alt="Supports Expo iOS" longdesc="Supports Expo iOS" src="https://img.shields.io/badge/iOS-4630EB.svg?style=flat-square&logo=APPLE&labelColor=999999&logoColor=fff" />
-  <!-- Android -->
-  <img alt="Supports Expo Android" longdesc="Supports Expo Android" src="https://img.shields.io/badge/Android-4630EB.svg?style=flat-square&logo=ANDROID&labelColor=A4C639&logoColor=fff" />
-  <!-- Web -->
-  <img alt="Supports Expo Web" longdesc="Supports Expo Web" src="https://img.shields.io/badge/web-4630EB.svg?style=flat-square&logo=GOOGLE-CHROME&labelColor=4285F4&logoColor=fff" />
+> TypeScript implementation of React Native fitness app originally by [Tyler McGinnis](https://github.com/tylermcginnis/) alongside some new features and library modernizations
+
+<p align="center">
+    <img height="729" width="410" alt = "TSBunch Logo" src="https://raw.githubusercontent.com/Zweihander-Main/TMGFitnessTS/master/docs/demo.gif">
 </p>
 
-TypeScript is a superset of JavaScript which gives you static types and powerful tooling in Visual Studio Code including autocompletion and useful inline warnings for type errors.
+### Tech stack:
 
-## 🚀 How to use
+-   TypeScript
+-   React Native
+-   React Navigation
+-   Styled Components
+-   React Hooks + Redux
+-   Expo (bare workflow, not managed)
 
-#### Creating a new project**
+### Instructions
 
-- Install the CLI: `npm i -g expo-cli`
-- Create a project: `expo init --template expo-template-blank-typescript`
-- `cd` into the project
+1. Run `npm install` in the main directory (package.json should be accurate)
+    - Special Notes:
+        - Source/Dev: `src` folder
+2. Run one of the commands from the [Scripts](#scripts) section. You'll most likely want `npm run start` followed by `npm run android` or `npm run ios` depending on what platform you have available
 
-### Adding TypeScript to existing projects
+### Scripts
 
-- Copy the `tsconfig.json` from this repo, or new typescript template
-- Add typescript dependencies: `yarn add --dev @types/react @types/react-native typescript`
-- Rename files tpo TypeScript, `.tsx` for React components and `.ts` for plain typescript files
+-   `npm run start`: Start metro bundler
+-   `npm run android`: Create and serve Android build
+-   `npm run ios`: Create and serve iOS build
 
-## 📝 Notes
+### Current TODOs:
 
-- [Expo TypeScript guide](https://docs.expo.io/versions/latest/guides/typescript/)
+-   Update libraries when applicable to support web
+
+### Dev notes
+
+-   Changed the folder structure for more sane Styled Components integration
+-   Using proper `react-native-calendars` library rather than TMG fork
+-   React Native web not currently supported -- waiting on library updates
+
+## Available for Hire
+
+I'm available for freelance, contracts, and consulting both remotely and in the Hudson Valley, NY (USA) area. [Some more about me](https://www.zweisolutions.com/about.html) and [what I can do for you](https://www.zweisolutions.com/services.html).
+
+Feel free to drop me a message at:
+
+```
+hi [a+] zweisolutions {●} com
+```
+
+## License
+
+[MIT](./LICENSE)

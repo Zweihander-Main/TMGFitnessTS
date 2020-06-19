@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import { gray } from '../../utils/colors';
+import Slider from '@react-native-community/slider';
 
 export const MetricCounterView = styled.View`
 	align-items: center;
@@ -13,7 +14,7 @@ export const SliderRowView = styled.View`
 	flex-direction: row;
 `;
 
-export const MainSlider = styled.Slider`
+export const MainSlider = styled(Slider)`
 	flex: 1;
 `;
 
